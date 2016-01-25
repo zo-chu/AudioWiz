@@ -17,5 +17,6 @@
         </LineChart>
         <Rectangle fx:id="highlighted" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="220.0" layoutX="261.0" layoutY="50.0" opacity="0.34" stroke="DODGERBLUE" strokeType="INSIDE" width="0.0" />
         <Button fx:id="buttonPlay" layoutX="25.0" layoutY="126.0" mnemonicParsing="false" text="Play" />
+        <Button fx:id="buttonSave" layoutX="25.0" layoutY="166.0" mnemonicParsing="false" text="Save png" />
     </children>
 </AnchorPane>

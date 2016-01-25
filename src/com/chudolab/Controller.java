@@ -3,13 +3,10 @@ package com.chudolab;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
@@ -27,6 +24,7 @@ public class Controller {
     private double startDrag;
     private double endDrag;
     private MediaPlayer mediaPlayer;
+    private String fileName;
 
     @FXML
     private javafx.scene.shape.Rectangle highlighted;
@@ -34,14 +32,16 @@ public class Controller {
     private LineChart<Number, Number> chart;
     @FXML
     private Button buttonPlay;
+    @FXML
+    private Button buttonSave;
 
     @FXML
     protected void initialize() throws IOException {
 
         DrawChart drawChart = new DrawChart();
         ArrayList<XYChart.Series> arrSeries = drawChart.createChart("kafe_01_wav_nums.txt","kafe_01_wav_period.txt");
-
-        chart.setTitle("Kafe");
+        fileName = "Kafe";
+        chart.setTitle(fileName);
         chart.setCreateSymbols(false);
         chart.setAnimated(false); // to make sure the png wouldn't be blank
 
@@ -110,6 +110,9 @@ public class Controller {
                 mediaPlayer.play();
                 mediaPlayer.seek(new Duration(startDrag));
             }
+        });
+        buttonSave.setOnMouseClicked(event->{
+            drawChart.savePngChart(chart , fileName+".png");
         });
     }
     public MediaPlayer getMediaPlayer(String pathToResource) {

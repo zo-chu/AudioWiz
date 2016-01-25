@@ -55,12 +55,12 @@ public class DrawChart {
         return arrSeries;
 
     }
-    public void savePngChart( LineChart numberLineChart){
+    public void savePngChart( LineChart numberLineChart , String fileName){
 
         WritableImage image = numberLineChart.snapshot(new SnapshotParameters(), null);
 
         // TODO:  file chooser here
-        File file = new File("chart.png");
+        File file = new File(fileName);
 
         try {
             ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
