@@ -25,6 +25,7 @@ public class Controller {
     private double endDrag;
     private MediaPlayer mediaPlayer;
     private String fileName;
+    private DrawChart drawChart;
 
     @FXML
     private javafx.scene.shape.Rectangle highlighted;
@@ -38,8 +39,8 @@ public class Controller {
     @FXML
     protected void initialize() throws IOException {
 
-        DrawChart drawChart = new DrawChart();
-        ArrayList<XYChart.Series> arrSeries = drawChart.createChart("kafe_01_wav_nums.txt","kafe_01_wav_period.txt");
+        drawChart = new DrawChart();
+        ArrayList<XYChart.Series> arrSeries = drawChart.createChart("kafe_01_wav_nums.txt", "kafe_01_wav_period.txt");
         fileName = "Kafe";
         chart.setTitle(fileName);
         chart.setCreateSymbols(false);
@@ -50,6 +51,11 @@ public class Controller {
         }
         getMediaPlayer("audio_resources/kafe01.wav");
 
+        onChartClicked();
+        onButtonsPressed();
+    }
+
+    private void onChartClicked() {
         chart.setOnMousePressed(event -> {
             highlighted.setWidth(0);
             startDrag = 0;
@@ -75,7 +81,9 @@ public class Controller {
                 }
             }
         });
+    }
 
+    private void onButtonsPressed() {
         buttonPlay.setOnAction(event -> {
             mediaPlayer.setStartTime(new Duration(0.0));
             mediaPlayer.setStopTime(new Duration(fileDuration));
@@ -90,7 +98,6 @@ public class Controller {
                 count = 0.0000;
                 tl.getKeyFrames().add(new KeyFrame(Duration.millis(0.6),
                         actionEvent -> {
-
                             if (count <= (fileDuration / 1000)) {
                                 data.setXValue(count);
                                 data2.setXValue(count);
@@ -111,11 +118,14 @@ public class Controller {
                 mediaPlayer.seek(new Duration(startDrag));
             }
         });
-        buttonSave.setOnMouseClicked(event->{
-            drawChart.savePngChart(chart , fileName+".png");
+        buttonSave.setOnMouseClicked(event -> {
+            drawChart.savePngChart(chart, fileName + ".png");
         });
     }
-    public MediaPlayer getMediaPlayer(String pathToResource) {
+
+    //gets a mediafile from resources and it's duration in different thread
+
+    private MediaPlayer getMediaPlayer(String pathToResource) {
         final URL resource = getClass().getResource(pathToResource);
         Media file = new Media(resource.toString());
         mediaPlayer = new MediaPlayer(file);
